@@ -3,7 +3,6 @@ include('include/connection.php');
 
 $query = 'SELECT * FROM items ORDER BY item_order ASC';
 $result = $con->query($query);
-$row = $result->fetch_assoc();
 ?>
 <!DOCTYPE html>
 <html>
@@ -26,7 +25,7 @@ $row = $result->fetch_assoc();
 
         <ul id="sortable">
             <?php
-            foreach ($row as $row) {
+            while($row=$result->fetch_assoc()){
             ?>
             <li id="<?php echo $row['id']; ?>">
                 <span></span>

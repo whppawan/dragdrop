@@ -6,10 +6,30 @@
 $servername = "localhost";
 $username = "root";
 $password = "Root@1978";
-$dbname = "drag_drop";
+$dbname = "dragdrop";
 
-$con = new mysqli($servername, $username, $password, $dbname);
-if($con->connect_error)
-    die("Connection failed: " . $con->connect_error);
-mysqli_set_charset( $con, 'utf8');
+$con = new mysqli($servername, $username, $password);
+if(!$con->connect_error)
+{
+	if($con->select_db($dbname)===false)
+	{
+		$sql = file_get_contents("db/$dbname.sql");
+		$rslt=$con->multi_query($sql);
+		if(!$con->error)
+		{
+			do{
+				$con->use_result();
+			}while($con->next_result());
+			
+			if($con->select_db($dbname)===false)
+				die($con->error);
+		}
+		else
+			die($con->error);
+	}
+}
+else
+	die($con->connect_error);
+
+$con->set_charset('utf8');
 ?>

@@ -12,14 +12,17 @@ $(function() {
         handle: 'span',
         update: function(event, ui) {
             var list_sortable = $(this).sortable('toArray').toString();
-			alert(list_sortable);
+			//alert(list_sortable);
     		// change order in the database using Ajax
             $.ajax({
-                url: 'set_order.php',
+                url: 'ajax/set_order.php',
                 type: 'POST',
                 data: {list_order:list_sortable},
                 success: function(data) {
                     //finished
+                },
+				error: function(e) {
+                    alert(e);
                 }
             });
         }
